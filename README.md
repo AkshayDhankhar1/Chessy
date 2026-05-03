@@ -157,42 +157,6 @@ Open **two browser tabs** at `http://localhost:5173`, enter different usernames,
 
 ---
 
-## 🔧 Design Decisions (Interview Talking Points)
-
-### 1. Server-Authoritative Architecture
-> Clients send move **intents** (from/to squares). The server validates every move via chess.js before broadcasting the authoritative state. This prevents cheating — a modified client cannot make illegal moves.
-
-### 2. O(1) Data Structures
-```typescript
-// GameManager uses dual HashMaps for O(1) access from either direction:
-private games: Map<string, Game> = new Map();           // gameId → Game
-private playerGameMap: Map<string, string> = new Map(); // playerId → gameId
-```
-> No O(n) iteration needed. When a player reconnects or makes a move, we resolve their game in constant time.
-
-### 3. Event-Driven Matchmaking (Observer Pattern)
-```typescript
-// MatchmakingQueue extends EventEmitter — loose coupling with socket layer
-matchmakingQueue.on('match_found', ({ white, black }) => {
-  const game = gameManager.createGame(...);
-  // Notify both players via their sockets
-});
-```
-> The queue doesn't know about sockets or games. It just emits `match_found` events. This separation of concerns makes each module independently testable.
-
-### 4. Session Recovery System
-```
-Disconnect → Start 30s Timer → [Reconnect within 30s?]
-                                    ├── YES → Restore full game state, cancel timer
-                                    └── NO  → Forfeit game (abandonment)
-```
-> Socket IDs change on reconnect, but the **playerId from JWT** persists. We map `playerId → session → gameId` for seamless recovery. Achieves ~99% recovery rate for brief network blips.
-
-### 5. Stale Closure Prevention
-> React's `useCallback` + `useState` creates stale closures when emitting socket events. We solved this by using a **module-level socket reference** (`getSocket()`) for all emissions, while using React state only for event listener lifecycle management.
-
----
-
 ## 📡 Socket Events
 
 ### Client → Server
@@ -218,27 +182,6 @@ Disconnect → Start 30s Timer → [Reconnect within 30s?]
 | `game:opponent_reconnected` | — | Opponent is back |
 | `game:draw_offered` | — | Opponent offered a draw |
 | `game:error` | `{ message }` | Invalid move or action |
-
----
-
-## 🎨 UI Design
-
-The interface uses an **Amber/Emerald** color palette on a dark slate background — deliberately different from chess.com's green/brown theme:
-
-| Element | Color | Hex |
-|---------|-------|-----|
-| Board Light Squares | Amber 100 | `#FEF3C7` |
-| Board Dark Squares | Emerald 800 | `#065F46` |
-| Accent / Highlights | Amber 500 | `#F59E0B` |
-| Background | Slate 950 | `#020617` |
-| Surface Cards | Slate 800 | `#1E293B` |
-| Legal Move Dots | Emerald 500 | `#10B981` |
-
----
-
-## 📝 License
-
-MIT
 
 ---
 
