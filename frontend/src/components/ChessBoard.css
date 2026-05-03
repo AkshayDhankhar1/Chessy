@@ -1,0 +1,208 @@
+/* ─── Chess Board Styles ───────────────────────────────────────────────────── */
+
+.chess-board-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: min(70vh, 560px);
+  height: min(70vh, 560px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 3px rgba(245, 158, 11, 0.2);
+  position: relative;
+  user-select: none;
+}
+
+.square {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.square.light {
+  background-color: var(--board-light);
+}
+
+.square.dark {
+  background-color: var(--board-dark);
+}
+
+.square.selected {
+  background-color: rgba(251, 191, 36, 0.6) !important;
+}
+
+.square.last-move.light {
+  background-color: rgba(251, 191, 36, 0.35);
+}
+
+.square.last-move.dark {
+  background-color: rgba(251, 191, 36, 0.25);
+}
+
+.square.in-check {
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.3) 50%, transparent 70%) !important;
+}
+
+.square:hover {
+  filter: brightness(1.08);
+}
+
+/* ─── Pieces ───────────────────────────────────────────────────────────────── */
+
+.piece-container {
+  width: 85%;
+  height: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+  z-index: 2;
+}
+
+.piece-container svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.square:active .piece-container {
+  transform: scale(1.1);
+}
+
+/* ─── Legal Move Indicators ────────────────────────────────────────────────── */
+
+.legal-move {
+  position: absolute;
+  width: 33%;
+  height: 33%;
+  border-radius: 50%;
+  background-color: var(--board-legal-move);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.legal-move.capture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+  border: 6px solid var(--board-legal-move);
+}
+
+/* ─── Coordinates ──────────────────────────────────────────────────────────── */
+
+.coord {
+  position: absolute;
+  font-size: 0.65rem;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 3;
+  font-family: 'Inter', sans-serif;
+}
+
+.coord.rank {
+  top: 2px;
+  left: 3px;
+}
+
+.coord.file {
+  bottom: 1px;
+  right: 3px;
+}
+
+.square.light .coord { color: var(--board-dark); }
+.square.dark .coord { color: var(--board-light); opacity: 0.8; }
+
+/* ─── Dragging ─────────────────────────────────────────────────────────────── */
+
+.dragging-piece {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.dragging-piece svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* ─── Promotion Dialog ─────────────────────────────────────────────────────── */
+
+.promotion-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+
+.promotion-dialog {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.promotion-dialog p {
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.promotion-options {
+  display: flex;
+  gap: 8px;
+}
+
+.promotion-btn {
+  width: 56px;
+  height: 56px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  padding: 4px;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promotion-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+.promotion-btn:hover {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.15);
+  transform: scale(1.1);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .chess-board {
+    width: min(90vw, 400px);
+    height: min(90vw, 400px);
+  }
+}

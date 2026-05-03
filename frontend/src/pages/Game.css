@@ -1,0 +1,214 @@
+/* ─── Game Page ────────────────────────────────────────────────────────────── */
+
+.game-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────────────── */
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-logo {
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.3));
+}
+
+.header-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--amber-400), var(--amber-500));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.disconnect-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 6px 16px;
+  border-radius: var(--radius-xl);
+  font-size: 0.8rem;
+  color: #fca5a5;
+  animation: fadeIn 0.3s ease;
+}
+
+.disconnect-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: pulse 1s ease infinite;
+}
+
+.draw-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 6px 16px;
+  border-radius: var(--radius-xl);
+  font-size: 0.85rem;
+  color: var(--amber-300);
+  animation: fadeIn 0.3s ease;
+}
+
+.btn-small {
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-accept {
+  background: var(--emerald-600);
+  color: #fff;
+}
+
+.btn-accept:hover { background: var(--emerald-500); }
+
+.btn-decline {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+}
+
+.btn-decline:hover { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+.turn-indicator {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 6px 16px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  transition: all var(--transition-normal);
+}
+
+.turn-indicator.my-turn {
+  color: var(--amber-400);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.1);
+}
+
+/* ─── Game Area ────────────────────────────────────────────────────────────── */
+.game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  gap: 12px;
+}
+
+.game-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.board-section {
+  flex-shrink: 0;
+}
+
+.board-player {
+  width: min(70vh, 560px);
+}
+
+/* ─── Side Panel ───────────────────────────────────────────────────────────── */
+.side-panel {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.4s ease 0.2s both;
+}
+
+.game-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.ctrl-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.ctrl-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.ctrl-btn.danger:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-panel {
+    width: min(90vw, 400px);
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .side-panel .move-history {
+    flex: 1;
+    min-width: 200px;
+    max-height: 200px;
+  }
+
+  .game-controls {
+    width: 100%;
+  }
+
+  .board-player {
+    width: min(90vw, 400px);
+  }
+}
